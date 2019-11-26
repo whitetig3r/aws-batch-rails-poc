@@ -1,7 +1,7 @@
 require_relative './concerns/batch_job_logger'
 
 class TodosController < ApplicationController
-  before_action :set_todo, only: [:show, :update, :destroy]
+  before_action :set_todo, only: %i[show update destroy]
 
   # GET /todos
   def index

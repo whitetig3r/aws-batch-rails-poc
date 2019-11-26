@@ -79,3 +79,5 @@ build-iPhoneSimulator/
 /containerized-job/APILOGGER.log
 /containerized-job/aws.yml
 .idea/
+.DS_Store
+db/

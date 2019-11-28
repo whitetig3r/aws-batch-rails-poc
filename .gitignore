@@ -77,7 +77,8 @@ build-iPhoneSimulator/
 .rvmrc
 
 /todos-api/jobs/logger-job/APILOGGER.log
-/todos-api/jobs/logger-job/aws.yml
+/todos-api/jobs/utils/aws.yml
+/config/aws.yml
 .idea/
 .DS_Store
 db/

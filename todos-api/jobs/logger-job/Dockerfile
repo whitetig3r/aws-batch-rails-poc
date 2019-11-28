@@ -1,10 +1,6 @@
-FROM ruby:2.6.5
+FROM samasource-batch-base:latest
 
-RUN apt-get update -qq
-
-ENV job /job
-RUN mkdir $job
-WORKDIR $job
-ADD . $job
-
-RUN bundle install
+ENV logger /logger-job
+RUN mkdir $logger
+WORKDIR $logger
+ADD . $logger

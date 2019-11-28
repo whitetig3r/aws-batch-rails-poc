@@ -7,7 +7,7 @@ class S3Client
     @credentials = YAML.load(
         ERB.new(
             File.read(
-                File.expand_path(File.dirname(__FILE__)) + '/aws.yml')
+               '/base/aws.yml')
           ).result)['development']
   end
 

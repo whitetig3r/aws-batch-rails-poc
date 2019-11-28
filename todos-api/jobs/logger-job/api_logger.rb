@@ -1,5 +1,5 @@
 require 'tempfile'
-require_relative 's3_client.rb'
+require_relative "#{File.join(Dir.pwd, '/../base/s3_client.rb')}"
 
 class ApiLogger
 

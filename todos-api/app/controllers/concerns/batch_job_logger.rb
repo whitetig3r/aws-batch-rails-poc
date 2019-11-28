@@ -27,13 +27,31 @@ module BatchJobLogger
                                         )
     end
 
-    def submit_batch_job
-      arg = {
-              job_definition: 'batch-job-demo-PoC:1',
-              job_name: 'api-logger-job',
-              job_queue: 'samabatch-job-queue'
-            }
-      batch_client.submit_job(arg)
+    def map_request_action(request_action)
+      case request_action
+      when 'index', 'show'
+        'GET'
+      when 'create'
+        'POST'
+      when 'update'
+        'PUT'
+      when 'destroy'
+        'DELETE'
+      else
+        'BAD_METHOD'
+      end
+    end
+
+    def submit_batch_job(request_action)
+      mapped_request_action = map_request_action request_action
+      batch_client.submit_job(
+                                  job_definition: 'logger-job-PoC:2',
+                                  job_name: 'api-logger-job',
+                                  job_queue: 'samabatch-job-queue',
+                                  parameters: {
+                                      'requestAction' => mapped_request_action
+                                  }
+                              )
     end
 
   end

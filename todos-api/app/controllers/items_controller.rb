@@ -2,37 +2,33 @@ require_relative './concerns/batch_job_logger'
 
 class ItemsController < ApplicationController
   before_action :set_todo
+  before_action :submit_job
   before_action :set_todo_item, only: %i[show update destroy]
 
   # GET /todos/:todo_id/items
   def index
-    logger.submit_batch_job
     json_response(@todo.items)
   end
 
   # GET /todos/:todo_id/items/:id
   def show
-    logger.submit_batch_job
     json_response(@item)
   end
 
   # POST /todos/:todo_id/items
   def create
     @todo.items.create!(item_params)
-    logger.submit_batch_job
     json_response(@todo, :created)
   end
 
   # PUT /todos/:todo_id/items/:id
   def update
-    logger.submit_batch_job
     @item.update(item_params)
     head :no_content
   end
 
   # DELETE /todos/:todo_id/items/:id
   def destroy
-    logger.submit_batch_job
     @item.destroy
     head :no_content
   end
@@ -45,6 +41,10 @@ class ItemsController < ApplicationController
 
   def item_params
     params.permit(:name, :done)
+  end
+
+  def submit_job
+    logger.submit_batch_job params[:action]
   end
 
   def set_todo

@@ -8,5 +8,3 @@ WORKDIR $job
 ADD . $job
 
 RUN bundle install
-
-CMD ruby api_logger.rb

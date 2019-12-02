@@ -5,9 +5,11 @@ require 'erb'
 class S3Client
   def initialize
     @credentials = YAML.load(
-        ERB.new(
-            File.read(
-               '/base/aws.yml')
+        ERB.new(File.read(
+            File.expand_path('../aws.yml',
+                             __FILE__
+                             )
+            )
           ).result)['development']
   end
 

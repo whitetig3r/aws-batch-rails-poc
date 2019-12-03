@@ -12,7 +12,11 @@ module BatchJobLogger
       @credentials = YAML.load(
         ERB.new(
           File.read(
-            File.expand_path(File.dirname(__FILE__)) + '/../../../config/aws.yml')
+              File.expand_path('../../../config/aws.yml',
+                               File.dirname(
+                                   __FILE__
+                               ))
+          )
         ).result)['development']
     end
 
@@ -23,8 +27,7 @@ module BatchJobLogger
     def batch_client
       @client ||= Aws::Batch::Client.new(region: @credentials['region'],
                                          credentials: Aws::Credentials.new(@credentials['access_key_id'],
-                                            @credentials['secret_access_key'])
-                                        )
+                                            @credentials['secret_access_key']))
     end
 
     def map_request_action(request_action)
@@ -45,7 +48,7 @@ module BatchJobLogger
     def submit_batch_job(request_action)
       mapped_request_action = map_request_action request_action
       batch_client.submit_job(
-                                  job_definition: 'logger-job-PoC:2',
+                                  job_definition: 'logger-job-PoC:6',
                                   job_name: 'api-logger-job',
                                   job_queue: 'samabatch-job-queue',
                                   parameters: {

@@ -14,11 +14,12 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
-
+  config.include RequestSpecHelper, type: :request
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

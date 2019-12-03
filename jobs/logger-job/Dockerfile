@@ -1,4 +1,4 @@
-# FROM PRIVATE_ECR_BASE_IMAGE
+# FROM PRIVATE_ECR_REPO
 
 ENV logger /logger-job
 RUN mkdir $logger

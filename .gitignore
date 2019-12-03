@@ -76,8 +76,8 @@ build-iPhoneSimulator/
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
 
-/todos-api/jobs/logger-job/APILOGGER.log
-/todos-api/jobs/utils/aws.yml
+/jobs/logger-job/APILOGGER.log
+/jobs/utils/aws.yml
 /config/aws.yml
 .idea/
 .DS_Store

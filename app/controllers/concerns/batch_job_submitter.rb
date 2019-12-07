@@ -1,11 +1,16 @@
 require 'aws-sdk-batch'
 require 'yaml'
+require 'json'
 
-module BatchJobLogger
-  class BatchJobLogger
+module BatchJobSubmitter
+  class BatchJobSubmitter
+
+    SCRIPT_JOB_MAP = {
+        LOGGER: 'api_logger.rb'
+    }
 
     def info?
-      'A Logger which works by placing jobs on a AWS Batch Job Queue'
+      'A Submission Handler which works by placing jobs on an AWS Batch Job Queue'
     end
 
     def initialize
@@ -30,29 +35,20 @@ module BatchJobLogger
                                             @credentials['secret_access_key']))
     end
 
-    def map_request_action(request_action)
-      case request_action
-      when 'index', 'show'
-        'GET'
-      when 'create'
-        'POST'
-      when 'update'
-        'PUT'
-      when 'destroy'
-        'DELETE'
-      else
-        'BAD_METHOD'
-      end
+    def map_execution_script(script_action)
+      SCRIPT_JOB_MAP[script_action]
     end
 
-    def submit_batch_job(request_action)
-      mapped_request_action = map_request_action request_action
+    def submit_batch_job(script_action, param_hash)
+      mapped_execution_script = map_execution_script script_action
+
       batch_client.submit_job(
-                                  job_definition: 'logger-job-PoC:6',
-                                  job_name: 'api-logger-job',
+                                  job_definition: 'generic-batch-job:1',
+                                  job_name: 'api-batch-job',
                                   job_queue: 'samabatch-job-queue',
                                   parameters: {
-                                      'requestAction' => mapped_request_action
+                                      'jobScript' => mapped_execution_script,
+                                      'params' => param_hash.to_json
                                   }
                               )
     end

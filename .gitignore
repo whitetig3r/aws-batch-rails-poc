@@ -76,7 +76,7 @@ build-iPhoneSimulator/
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
 
-/jobs/logger-job/APILOGGER.log
+/jobs/generic_batch_job/APILOGGER.log
 /jobs/utils/aws.yml
 /config/aws.yml
 .idea/

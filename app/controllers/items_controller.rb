@@ -1,4 +1,4 @@
-require_relative './concerns/batch_job_logger'
+require_relative './concerns/batch_job_submitter'
 
 class ItemsController < ApplicationController
   before_action :set_todo
@@ -33,8 +33,8 @@ class ItemsController < ApplicationController
     head :no_content
   end
 
-  def logger
-    BatchJobLogger.instance
+  def submitter
+    BatchJobSubmitter.instance
   end
 
   private
@@ -44,7 +44,8 @@ class ItemsController < ApplicationController
   end
 
   def submit_job
-    logger.submit_batch_job params[:action]
+    param_hash = { request_action: http_method(params[:action]) }
+    submitter.submit_batch_job(:LOGGER, param_hash)
   end
 
   def set_todo

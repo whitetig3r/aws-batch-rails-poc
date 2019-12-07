@@ -3,10 +3,10 @@ FROM ruby:2.6.5
 
 RUN apt-get update -qq
 
-ENV base /base
-RUN mkdir $base
-WORKDIR $base
-ADD . $base
+ENV utils /utils
+RUN mkdir $utils
+WORKDIR $utils
+ADD . $utils
 
 # Install all required gems used by utils/
 RUN bundle install

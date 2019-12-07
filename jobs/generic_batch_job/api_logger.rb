@@ -1,5 +1,6 @@
 require 'tempfile'
-require_relative "#{File.join(Dir.pwd, '/../base/s3_client.rb')}"
+require 'json'
+require_relative "#{File.join(Dir.pwd, '/../utils/s3_client.rb')}"
 
 class ApiLogger
 
@@ -28,5 +29,7 @@ class ApiLogger
   end
 end
 
+param_hash = JSON.parse ARGV[0] # contains the params for the job as a hash
+
 api_logger = ApiLogger.new
-api_logger.write_log(ARGV[0]) # contains the request method
+api_logger.write_log(param_hash['request_action']) # contains the request method

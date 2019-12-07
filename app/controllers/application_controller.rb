@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   include Response
+  include ExtractHttpMethod
   include ExceptionHandler
-  include BatchJobLogger
+  include BatchJobSubmitter
 end

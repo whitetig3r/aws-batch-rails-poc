@@ -1,4 +1,4 @@
-require_relative './concerns/batch_job_logger'
+require_relative './concerns/batch_job_submitter'
 
 class TodosController < ApplicationController
   before_action :set_todo, only: %i[show update destroy]
@@ -33,14 +33,15 @@ class TodosController < ApplicationController
     head :no_content
   end
 
-  def logger
-    BatchJobLogger.instance
+  def submitter
+    BatchJobSubmitter.instance
   end
 
   private
 
   def submit_job
-    logger.submit_batch_job params[:action]
+    param_hash = { request_action: http_method(params[:action]) }
+    submitter.submit_batch_job(:LOGGER, param_hash)
   end
 
   def todo_params

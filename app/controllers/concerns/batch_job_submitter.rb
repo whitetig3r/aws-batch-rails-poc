@@ -41,16 +41,19 @@ module BatchJobSubmitter
 
     def submit_batch_job(script_action, param_hash)
       mapped_execution_script = map_execution_script script_action
+      submission_time_stamp = (Time.now.to_f.round(3)*1000).to_i
 
-      batch_client.submit_job(
-                                  job_definition: 'generic-batch-job:1',
-                                  job_name: 'api-batch-job',
-                                  job_queue: 'samabatch-job-queue',
-                                  parameters: {
-                                      'jobScript' => mapped_execution_script,
-                                      'params' => param_hash.to_json
-                                  }
-                              )
+      response = batch_client.submit_job(
+                                          job_definition: 'generic-batch-job:1',
+                                          job_name: "#{script_action}_#{submission_time_stamp}",
+                                          job_queue: 'samabatch-job-queue',
+                                          parameters: {
+                                              'jobScript' => mapped_execution_script,
+                                              'params' => param_hash.to_json
+                                          }
+                                        )
+      cache_key = response.to_h[:job_id]
+      ReadCache.redis.set(cache_key, 'SUBMITTED')
     end
 
   end

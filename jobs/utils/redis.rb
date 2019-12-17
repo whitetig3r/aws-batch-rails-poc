@@ -3,7 +3,16 @@ require 'redis'
 module ReadCache
   class << self
     def redis
-      @redis ||= Redis.new(:url => (ENV['REDIS_URL'] || 'redis://127.0.0.1:6379'))
+      @url = YAML.load(
+          ERB.new(
+              File.read(
+                  File.expand_path('./redis_creds.yml',
+                                   File.dirname(
+                                       __FILE__
+                                   ))
+              )
+          ).result)['development']
+      @redis ||= Redis.new(:url => @url['url'])
     end
   end
 end

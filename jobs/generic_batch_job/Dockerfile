@@ -1,5 +1,8 @@
-# FROM BASE IMAGE ON PRIVATE ECR REPO
-ENV batch_job /batch-job
-RUN mkdir $batch_job
-WORKDIR $batch_job
-ADD . $batch_job
+ARG BASE_IMAGE
+
+FROM $BASE_IMAGE
+
+ENV generic_batch_job /generic_batch_job
+RUN rm -r $generic_batch_job; mkdir $generic_batch_job
+WORKDIR $generic_batch_job
+ADD . $generic_batch_job
